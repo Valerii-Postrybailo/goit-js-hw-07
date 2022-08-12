@@ -36,7 +36,6 @@ gallery.addEventListener("keydown", event => {
     event.preventDefault(onClick);
     console.log("Enter worked")
     console.log(`We ara here: ${event.target}`)
-    onClick(event.target)
   } 
 })
 
