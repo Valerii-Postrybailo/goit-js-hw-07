@@ -29,18 +29,7 @@ function createGalleryMarkup(items) {
     .join("")
 }
 
-////////////////////////////////////////////////////
-
-gallery.addEventListener("keydown", event => {
-  if (event.code === 'Enter') {
-    event.preventDefault(onClick);
-    console.log("Enter worked")
-    console.log(`We ara here: ${event.target}`)
-  } 
-})
-
-/////////////////////////////////////////////////////
-
+///////////////////////////////////////////////////
 gallery.addEventListener("click", onClick)
 
 function onClick(event) {
@@ -52,36 +41,25 @@ function onClick(event) {
   
   console.log(event.target.dataset.source)
 
-  const instance = basicLightbox.create(`
-    <img src="${event.target.dataset.source}" width="800" height="600">`)
+  const instance = basicLightbox.create(`<img src="${event.target.dataset.source}" width="800" height="600">`, {
+    onShow: instance => {
+      window.addEventListener("keydown", onEscPress);
+    },
+    onClose: instance => {
+      window.removeEventListener("keydown", onEscPress);
+    }
+  })
 
   instance.show()
   console.log(instance.show())
 
-  ///////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////
   
-  // window.addEventListener("keydown", (event) => {
-
-  //   if (event.code === 'Escape') {
-  //     console.log("key worked")
-  //     instance.close()
-  //     }
-  //   })
-
-  window.addEventListener("keydown", onEscPress)
-
   function onEscPress(event) {
-
     if (event.code === 'Escape') {
       console.log("key worked")
-      instance.close(removeKeyEventListener)
-      }
+      instance.close()
+      return
     }
-
-  function removeKeyEventListener() {
-    window.removeEventListener("keydown", onEscPress)
-  }
-
-  const body = document.querySelector("body")
-    console.log(body)
+  } 
 }
